@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import UsersTable from "./Components/UsersTable";
 import ChartTime from "./Components/ChartTime";
