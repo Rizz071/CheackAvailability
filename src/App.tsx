@@ -1,18 +1,28 @@
+import React, { useState } from "react";
 import "./App.css";
 import UsersTable from "./Components/UsersTable";
 import ChartTime from "./Components/ChartTime";
-import { generateUsers } from "./Services/serviceUsers";
 import { DummyUser } from "./types";
-import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 
-function App() {
-    const dummyUsers: DummyUser[] = generateUsers(10);
+interface Props {
+    generatedUsers: DummyUser[];
+}
+
+function App({ generatedUsers }: Props) {
+    const [selectedUsers, setSelectedUsers] = useState<DummyUser[]>([]);
+    const [showAvailability, setShowAvailability] = useState<boolean>(false);
 
     return (
-        <Box sx={{ display: "flex" }}>
-            <UsersTable dummyUsers={dummyUsers} />
-            <ChartTime dummyUsers={dummyUsers} />
-        </Box>
+        <Stack direction="row" spacing={2}>
+            <UsersTable
+                dummyUsers={generatedUsers}
+                setSelectedUsers={setSelectedUsers}
+                showAvailability={showAvailability}
+                setShowAvailability={setShowAvailability}
+            />
+            {showAvailability && <ChartTime dummyUsers={selectedUsers} />}
+        </Stack>
     );
 }
 

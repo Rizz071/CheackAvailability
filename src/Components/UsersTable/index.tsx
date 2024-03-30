@@ -167,10 +167,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
     numSelected: number;
+    showAvailability: boolean;
+    setShowAvailability: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected } = props;
+    const { numSelected, showAvailability, setShowAvailability } = props;
 
     return (
         <Toolbar
@@ -200,11 +202,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     <Button
                         sx={{
                             whiteSpace: "nowrap",
-                            width: 1 / 2,
+                            width: "75%",
                         }}
                         variant="contained"
                         color="secondary"
                         size="small"
+                        onClick={() => setShowAvailability(!showAvailability)}
                     >
                         Availability (selected)
                     </Button>
@@ -212,7 +215,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             ) : (
                 <>
                     <Typography
-                        sx={{ flex: "1 1 100%" }}
+                        sx={{ flex: "1 1 100%", textAlign: "left" }}
                         variant="h6"
                         id="tableTitle"
                         component="div"
@@ -223,6 +226,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                         sx={{ whiteSpace: "nowrap", width: 1 / 2 }}
                         variant="contained"
                         size="small"
+                        onClick={() => setShowAvailability(!showAvailability)}
                     >
                         Availability (all)
                     </Button>
@@ -247,15 +251,33 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
 interface Props {
     dummyUsers: DummyUser[];
+    setSelectedUsers: React.Dispatch<React.SetStateAction<DummyUser[]>>;
+    showAvailability: boolean;
+    setShowAvailability: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function UsersTable({ dummyUsers }: Props) {
+export default function UsersTable({
+    dummyUsers,
+    setSelectedUsers,
+    showAvailability,
+    setShowAvailability,
+}: Props) {
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    React.useEffect(() => {
+        if (selected.length !== 0) {
+            setSelectedUsers(
+                dummyUsers.filter((user) => selected.includes(user.id))
+            );
+        } else {
+            setSelectedUsers(dummyUsers);
+        }
+    }, [selected]);
 
     // Filling table with generated dummy users
     const rows = dummyUsers.map((user) => createData(user.id, user.userName));
@@ -330,12 +352,16 @@ export default function UsersTable({ dummyUsers }: Props) {
     );
 
     return (
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: "100%", pr: 10 }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar
+                    numSelected={selected.length}
+                    showAvailability={showAvailability}
+                    setShowAvailability={setShowAvailability}
+                />
                 <TableContainer>
                     <Table
-                        sx={{ minWidth: 750 }}
+                        sx={{ minWidth: 500 }}
                         aria-labelledby="tableTitle"
                         size={dense ? "small" : "medium"}
                     >

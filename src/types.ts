@@ -1,3 +1,12 @@
+export type Day =
+    | "Sunday"
+    | "Monday"
+    | "Tuesday"
+    | "Wednesday"
+    | "Thursday"
+    | "Friday"
+    | "Saturday";
+
 export interface DayPeriod {
     startTime: number;
     endTime: number;

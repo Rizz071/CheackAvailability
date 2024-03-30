@@ -1,5 +1,5 @@
 import { DayFreeTime, DayPeriod, DummyUser, WeekFreeTime } from "../types";
-
+import randomNames from "../randomNames.json"
 
 
 
@@ -44,7 +44,7 @@ const generateUsers = (users_amount: number): DummyUser[] => {
 
         const dummyUser: DummyUser = {
             id: i,
-            userName: "User " + i,
+            userName: randomNames[i].username,
             freeTime: generatedUserWeekFreeTime
         }
 
