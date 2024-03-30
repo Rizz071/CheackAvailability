@@ -14,7 +14,10 @@ function App({ generatedUsers }: Props) {
     const [showAvailability, setShowAvailability] = useState<boolean>(false);
 
     return (
-        <Stack direction="row" spacing={2}>
+        <Stack
+            direction={{ xs: "column", lg: "row" }}
+            sx={{ width: { xs: "90%", lg: "100%" }, mx: "auto" }}
+        >
             <UsersTable
                 dummyUsers={generatedUsers}
                 setSelectedUsers={setSelectedUsers}

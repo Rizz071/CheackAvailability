@@ -202,7 +202,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     <Button
                         sx={{
                             whiteSpace: "nowrap",
-                            width: "75%",
+                            minWidth: "fit-content",
                         }}
                         variant="contained"
                         color="secondary"
@@ -223,12 +223,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                         Sample Tribe
                     </Typography>
                     <Button
-                        sx={{ whiteSpace: "nowrap", width: 1 / 2 }}
+                        sx={{ whiteSpace: "nowrap", minWidth: "fit-content" }}
                         variant="contained"
                         size="small"
                         onClick={() => setShowAvailability(!showAvailability)}
                     >
-                        Availability (all)
+                        Availability
                     </Button>
                 </>
             )}
@@ -361,7 +361,7 @@ export default function UsersTable({
                 />
                 <TableContainer>
                     <Table
-                        sx={{ minWidth: 500 }}
+                        sx={{ minWidth: "fit-content" }}
                         aria-labelledby="tableTitle"
                         size={dense ? "small" : "medium"}
                     >

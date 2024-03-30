@@ -11,6 +11,7 @@ import {
 import { DummyUser, WeekFreeTime } from "../../types";
 import {
     Box,
+    Button,
     FormControl,
     InputLabel,
     MenuItem,
@@ -20,6 +21,8 @@ import {
     Typography,
 } from "@mui/material";
 
+import { useTheme } from "@mui/material/styles";
+
 interface Props {
     dummyUsers: DummyUser[];
 }
@@ -27,12 +30,13 @@ interface Props {
 const ChartTime = ({ dummyUsers }: Props) => {
     const [day, setDay] = useState<keyof WeekFreeTime>("Sunday");
 
+    const theme = useTheme();
+
     interface Hour {
-        hourName: number;
+        hourName: string;
         freeHours: number;
     }
 
-    // Only for Sunday first
     let hours: Hour[] = [];
     for (let currentHour = 0; currentHour <= 23; currentHour++) {
         let SundayDayFreeHours = 0;
@@ -47,7 +51,7 @@ const ChartTime = ({ dummyUsers }: Props) => {
             }
         });
         hours = hours.concat({
-            hourName: currentHour,
+            hourName: `${currentHour}:00`,
             freeHours: SundayDayFreeHours,
         });
     }
@@ -113,39 +117,54 @@ const ChartTime = ({ dummyUsers }: Props) => {
                     }}
                 >
                     <XAxis
+                        tickLine={false}
+                        tick={false}
                         label={{
                             value: "Free hours",
-                            position: "bottom",
                         }}
                     />
                     <YAxis
                         dataKey="hourName"
-                        stroke="#8884d8"
+                        stroke={theme.palette.text.primary}
                         type="category"
                         interval="preserveStartEnd"
-                        label={{
-                            value: "Time of day",
-                            angle: -90,
-                            position: "insideLeft",
-                        }}
+                        // label={{
+                        //     value: "Time",
+                        //     angle: -90,
+                        //     position: "insideLeft",
+                        // }}
                     />
                     <Tooltip
-                        wrapperStyle={{ width: 100, backgroundColor: "#ccc" }}
+                        wrapperStyle={{ width: 150, backgroundColor: "#ccc" }}
                     />
                     <Legend
                         width={100}
                         wrapperStyle={{
                             top: 40,
                             right: 40,
-                            backgroundColor: "#f5f5f5",
-                            border: "1px solid #d5d5d5",
+                            border: "0px solid #d5d5d5",
                             borderRadius: 3,
                             lineHeight: "10px",
                         }}
                     />
-                    <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
-                    <Bar dataKey="freeHours" fill="#8884d8" barSize={10} />
+                    <CartesianGrid stroke="#ccc" strokeDasharray="2 2" />
+                    <Bar
+                        dataKey="freeHours"
+                        fill={theme.palette.success.light}
+                        barSize={10}
+                    />
                 </BarChart>
+                <Button
+                    sx={{
+                        whiteSpace: "nowrap",
+                        minWidth: "fit-content",
+                        mb: 2,
+                    }}
+                    variant="contained"
+                    size="small"
+                >
+                    Create event
+                </Button>
             </Paper>
         </Box>
     );
