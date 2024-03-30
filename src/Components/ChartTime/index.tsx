@@ -152,6 +152,7 @@ const ChartTime = ({ dummyUsers }: Props) => {
                         dataKey="freeHours"
                         fill={theme.palette.success.light}
                         barSize={10}
+                        radius={[0, 10, 10, 0]}
                     />
                 </BarChart>
                 <Button
